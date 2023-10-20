@@ -45,7 +45,44 @@ class MyAppState extends ChangeNotifier {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatelessWidget{
+  @override
+  Widget build(BuildContext context){
+    return Scaffold(
+      body: Row(
+        children: [
+          SafeArea(
+              child: NavigationRail(
+          extended: false,
+        destinations: [
+          NavigationRailDestination(
+              icon: Icon(Icons.home),
+              label: Text('Home'),
+          ),
+          NavigationRailDestination(
+              icon: Icon(Icons.favorite),
+              label: Text('Favorites'),
+          ),
+        ],
+        selectedIndex: 0,
+        onDestinationSelected: (value){
+            print('selected: $value');
+        },
+      ),
+    ),
+    Expanded(
+    child: Container(
+    color: Theme.of(context).colorScheme.primaryContainer,
+    child: GeneratorPage(),
+    ),
+    ),
+    ],
+    ),
+    );
+  }
+}
+
+class GeneratorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
@@ -58,13 +95,12 @@ class MyHomePage extends StatelessWidget {
       icon = Icons.favorite_border;
     }
 
-    return Scaffold(
-      body: Center(
+    return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             BigCard(pair: pair),
-            SizedBox(height: 10,),
+            SizedBox(height: 10),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -84,10 +120,9 @@ class MyHomePage extends StatelessWidget {
                     child: Text('Next'),
                 ),
               ],
-            )
+            ),
           ],
         ),
-      ),
     );
   }
 }
